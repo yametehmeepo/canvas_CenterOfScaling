@@ -12,11 +12,31 @@
 		#buttons a + a{
 			margin-left: 8px;
 		}
+		#mask{
+			position: fixed;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 999;
+			background: rgba(0, 0, 0, 0.8);
+		}
+		#mask span{
+			display: block;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 18px;
+			line-height: 1;
+			color: #fff;
+		}
 	</style>
 </head>
 <body>
 	<canvas id="canvas" style="border: 1px solid #eee; display: block; margin:50px auto;">您的浏览器不支持canvas</canvas>
 	<input type="range" id="range" min="0.5" max="3.0" step="0.01" value="1" style="display: block; width: 600px;margin: 20px auto;">
+	<div id="mask"><span>图片加载中, 请稍候...</span></div>
 	<script>
 		var canvas = document.getElementById('canvas');
 		var context = canvas.getContext('2d');
@@ -30,6 +50,8 @@
 			canvas.height = ch;
 			image.src = './12.jpg';
 			image.onload = function(){
+				var mask = document.getElementById('mask');
+				mask.style.display = 'none';
 				drawImageByScale(scale);
 				range.onmousemove = function(){
 					scale = range.value;
