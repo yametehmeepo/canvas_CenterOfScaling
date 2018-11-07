@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<title>canvas_图像中心缩放demo</title>
+	<style>
+		html,body{
+			margin: 0;
+			padding: 0;
+		}
+		#buttons a + a{
+			margin-left: 8px;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" style="border: 1px solid #eee; display: block; margin:50px auto;">您的浏览器不支持canvas</canvas>
+	<input type="range" id="range" min="0.5" max="3.0" step="0.01" value="1" style="display: block; width: 600px;margin: 20px auto;">
+	<script>
+		var canvas = document.getElementById('canvas');
+		var context = canvas.getContext('2d');
+		var image = new Image();
+		var cw = 1122;//3366
+		var ch = 531;//1594
+		var range = document.getElementById('range');
+		var scale = range.value;
+		window.onload = function(){
+			canvas.width = cw;
+			canvas.height = ch;
+			image.src = './12.jpg';
+			image.onload = function(){
+				drawImageByScale(scale);
+				range.onmousemove = function(){
+					scale = range.value;
+					drawImageByScale(scale);
+				}
+			}
+		}
+		function drawImageByScale(scale){
+			var imgW = cw * scale;
+			var imgH = ch * scale;
+			var dx = cw/2 - imgW/2;
+			var dy = ch/2 - imgH/2;
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			context.drawImage(image, dx, dy, imgW, imgH);
+		}
+	</script>
+</body>
+</html>
+
